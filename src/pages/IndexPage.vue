@@ -7,12 +7,15 @@
 <script lang="ts" setup>
 import { ref} from "vue";
 import {PDFDocument} from "pdf-lib";
-
-const fs = require("fs") as typeof import("fs");
+// @ts-ignore
+let myWindowAPI = window.myWindowAPI;
+let fs = myWindowAPI.getFS();
 let dataBase64 = ref()
 let mainFrame = ref()
 async function createPdf(input: string) {
-  const pdfDoc = await PDFDocument.load(fs.readFileSync(input,"base64"))
+
+  let file = fs.readFileSync(input,"base64");
+  const pdfDoc = await PDFDocument.load(file)
   const form = pdfDoc.getForm()
   const fields = form.getFields()
   fields.forEach((field) => {
