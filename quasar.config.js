@@ -11,10 +11,9 @@
 
 const { configure } = require('quasar/wrappers');
 const path = require('path');
-
 module.exports = configure(function (/* ctx */) {
   return {
-    
+
 
     // https://v2.quasar.dev/quasar-cli-vite/prefetch-feature
     // preFetch: true,
@@ -174,7 +173,7 @@ module.exports = configure(function (/* ctx */) {
 
       inspectPort: 5858,
 
-      bundler: 'packager', // 'packager' or 'builder'
+      bundler: 'builder', // 'packager' or 'builder'
 
       packager: {
         // https://github.com/electron-userland/electron-packager/blob/master/docs/api.md#options
@@ -192,7 +191,28 @@ module.exports = configure(function (/* ctx */) {
       builder: {
         // https://www.electron.build/configuration/configuration
 
-        appId: 'pdffill'
+        appId: 'pdffill',
+        win: {
+          target: {
+            target: 'nsis',
+            arch: [
+              'x64',
+              'ia32'
+            ]
+          }
+        },
+        nsis: {
+          oneClick: false,
+          allowToChangeInstallationDirectory: true
+        },
+        publish: {
+          provider: "github",
+          repo: "PDF-Fill",
+          owner: "Bosconovitchi",
+          token: process.env.GH_key,
+          releaseType: "release",
+          publishAutoUpdate: true
+        }
       }
     },
 
