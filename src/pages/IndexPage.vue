@@ -1,17 +1,25 @@
 <template>
-  <q-page class="row items-center justify-evenly" @drop="dropThat" @dragover="dragoverThat">
-    <embed :ref="mainFrame" v-if="!!dataBase64" :src="dataBase64" srcdoc=""  style="height: 100vh;width: 100vw" />
+  <q-page class="row items-center justify-evenly" @drop="dropThat" @dragover="dragoverThat" >
+    <div  v-if="!dataBase64" align="center" style="font-size: 3em">
+      <q-icon name="post_add" />
+      <div>drop file</div>
+    </div>
+    <div v-else>
+      <q-btn class="glossy" round color="primary" icon="restore_page" style="position: fixed;right: 0.5em;bottom: 3em" @click="clearFile" />
+      <iframe :src="dataBase64"  style="height: 100vh;width: 100vw;" />
+    </div>
+
   </q-page>
 </template>
 
 <script lang="ts" setup>
-import { ref} from "vue";
+import {ref} from "vue";
 import {PDFDocument} from "pdf-lib";
 // @ts-ignore
 let myWindowAPI = window.myWindowAPI;
 let fs = myWindowAPI.getFS();
 let dataBase64 = ref()
-let mainFrame = ref()
+
 async function createPdf(input: string) {
 
   let file = fs.readFileSync(input,"base64");
@@ -49,10 +57,9 @@ function dragoverThat (e:any) {
   e.stopPropagation();
 }
 
-window.ondragover = () => {
-  console.log(1)
+function clearFile () {
+  dataBase64.value = undefined
 }
 
-
-
 </script>
+

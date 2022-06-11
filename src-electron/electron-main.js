@@ -14,16 +14,21 @@ try {
 
 let mainWindow
 
+let useFrame = false
 function createWindow () {
   /**
    * Initial window options
    */
+  const os = require('os');
+  if (os.platform() === 'darwin') {
+    useFrame = true
+  }
   mainWindow = new BrowserWindow({
     icon: path.resolve(__dirname, 'icons/icon.png'), // tray icon
     width: 1000,
     height: 600,
     useContentSize: true,
-    frame: false,
+    frame: useFrame,
     webPreferences: {
       nodeIntegration: true,
       contextIsolation: true,
@@ -62,3 +67,4 @@ app.on('activate', () => {
     createWindow()
   }
 })
+

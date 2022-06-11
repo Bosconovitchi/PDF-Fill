@@ -40,5 +40,8 @@ contextBridge.exposeInMainWorld('myWindowAPI', {
   },
   getFS () {
     return require("fs")
+  },
+  getOS () {
+    return require('os')
   }
 })

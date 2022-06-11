@@ -1,10 +1,9 @@
 <template>
   <q-layout view="lHh Lpr lFf" >
-    <q-header elevated>
+    <q-header v-if="osType !== 'darwin'" elevated>
       <q-bar v-if="mode === 'electron'" class="q-electron-drag">
-        <q-icon name="laptop_chromebook" />
+        <q-icon name="folder" />
         <div>PDF-fill</div>
-
         <q-space />
 
         <q-btn dense flat icon="minimize" @click="minimize" />
@@ -21,9 +20,12 @@
 
 <script lang="ts" setup>
 import { ref } from "vue";
+
 let mode = process?.env?.MODE;
 // @ts-ignore
 let myWindowAPI = window.myWindowAPI;
+const os = myWindowAPI.getOS();
+let osType = ref(os.platform())
 function minimize () {
   if (mode === 'electron') {
     myWindowAPI.minimize()
