@@ -21,7 +21,7 @@
 <script lang="ts" setup>
 import { ref } from "vue";
 
-let mode = process?.env?.MODE;
+let mode = 'electron';
 // @ts-ignore
 let myWindowAPI = window.myWindowAPI;
 const os = myWindowAPI.getOS();

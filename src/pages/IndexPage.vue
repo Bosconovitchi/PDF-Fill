@@ -6,7 +6,7 @@
     </div>
     <div v-else>
       <q-btn class="glossy" round color="primary" icon="restore_page" style="position: fixed;right: 0.5em;bottom: 3em" @click="clearFile" />
-      <iframe :src="dataBase64"  style="height: 100vh;width: 100vw;" />
+      <iframe :src="dataBase64"  :class="frameStyle" />
     </div>
 
   </q-page>
@@ -19,7 +19,11 @@ import {PDFDocument} from "pdf-lib";
 let myWindowAPI = window.myWindowAPI;
 let fs = myWindowAPI.getFS();
 let dataBase64 = ref()
-
+let frameStyle = ref("mainFrame")
+const os = myWindowAPI.getOS();
+if (os.platform() === 'drawin') {
+  frameStyle.value = "fullFrame"
+}
 async function createPdf(input: string) {
 
   let file = fs.readFileSync(input,"base64");
@@ -62,4 +66,13 @@ function clearFile () {
 }
 
 </script>
+
+<style lang="sass">
+.mainFrame
+  width: 100vw
+  height: calc(100vh - 2.8em)
+.fullFrame
+  width: 100vw
+  height: 100vh
+</style>
 
