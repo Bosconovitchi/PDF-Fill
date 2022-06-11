@@ -21,7 +21,7 @@ let fs = myWindowAPI.getFS();
 let dataBase64 = ref()
 let frameStyle = ref("mainFrame")
 const os = myWindowAPI.getOS();
-if (os.platform() === 'drawin') {
+if (os.platform() === 'darwin') {
   frameStyle.value = "fullFrame"
 }
 async function createPdf(input: string) {
