@@ -11,6 +11,7 @@
 
 const { configure } = require('quasar/wrappers');
 const path = require('path');
+console.log(process.env.GH_key)
 module.exports = configure(function (/* ctx */) {
   return {
 
@@ -179,8 +180,10 @@ module.exports = configure(function (/* ctx */) {
         // https://github.com/electron-userland/electron-packager/blob/master/docs/api.md#options
 
         // OS X / Mac App Store
-        // appBundleId: '',
-        // appCategoryType: '',
+        // osxNotarize: {
+        //   appleId: '',
+        //   appleIdPassword: ''
+        // }
         // osxSign: '',
         // protocol: 'myapp://path',
 
@@ -190,8 +193,31 @@ module.exports = configure(function (/* ctx */) {
 
       builder: {
         // https://www.electron.build/configuration/configuration
+        appId: 'com.xuminghai.pdffill',
+        mac: {
+          icon: "src-electron/icons/icon.icns",
+          target: [{
+            target: 'dmg',
+            arch: [
+              'arm64',
+              'x64'
+            ]
+          },
+            {
+              target: 'mas',
+              arch: [
+                'arm64',
+                'x64'
+              ]
+            }],
+          entitlements: "src-electron/build/entitlements.mas.plist",
+          entitlementsInherit: "src-electron/build/entitlements.mas.inherit.plist",
+          provisioningProfile: "PDFFill.provisionprofile",
 
-        appId: 'pdffill',
+        },
+        dmg: {
+          sign: false
+        },
         win: {
           target: {
             target: 'nsis',
